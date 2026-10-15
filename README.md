@@ -7,10 +7,10 @@ tools, down to street or camera level when the evidence allows. Every photo gets
 a report, evidence images and a scoreboard once the true location is known.
 
 > GeoInt builds on [geo-sleuth](https://github.com/Oldcircle/geo-sleuth) by [Oldcircle](https://github.com/Oldcircle)
-> (MIT) and reuses substantial parts of its toolkit and documentation. GeoInt adds substantial work of its own: 13 new
-> tools, new features in 12 of geo-sleuth's, a rewritten method (97% new), a worldwide clue library, street-level
-> search across 11 providers and a per-photo archive with scoring. In all, 80% of the instructions are GeoInt's own.
-> [Credits](#credits) shows which part is which.
+> (MIT). From geo-sleuth: 9 tools, the base of 12 more that GeoInt extended, and part of the documentation and data.
+> New in GeoInt: 13 tools, a rewritten method (97% new), a worldwide clue library, street-level search across 11
+> providers and a per-photo archive with scoring. In all, 80% of the instructions and 47% of the Python code are
+> GeoInt's own; [Credits](#credits) shows which part is which.
 
 `SKILL.md` is the method; `references/` holds the playbooks and the worldwide clue library; `scripts/` holds the
 tools.
@@ -56,18 +56,18 @@ Oldcircle's copyright notice.
 
 | | From geo-sleuth | New in GeoInt |
 |---|---|---|
-| Tools (34) | 21: 9 unchanged, 12 extended by GeoInt | **13 new** |
+| Tools (34) | 9, plus the base of 12 more | **13 new**, plus new features in those 12 |
 | Method (`SKILL.md`) | 3% | **97%** |
 | Instructions (`SKILL.md` + `references/`) | 20% | **80%** |
 | Python code | 53% | **47%** (about 7,100 lines) |
-| Data tables | 7: 5 unchanged, 2 lightly edited | **4**, incl. 2,100 regional plate codes and 250 countries and territories |
+| Data tables | 7 | **4**, incl. 2,100 regional plate codes and 250 countries and territories |
 
 Percentages count non-blank lines that match geo-sleuth at commit `4ff6c2f`.
 
 **From geo-sleuth:** the base toolkit for maps and geometry, sun and terrain analysis, OCR, reverse image search,
 image matching, the reasoning board and evidence images, plus the China-specific data and street-level imagery.
 
-- Unchanged: `geo.py`, `exif.py`, `intake.py`, `pose.py`, `revimg.py`, `gazetteer.py`, `sat_scan.py`,
+- `geo.py`, `exif.py`, `intake.py`, `pose.py`, `revimg.py`, `gazetteer.py`, `sat_scan.py`,
   `baidu_pano.py`, `poi.py` (apart from its user-agent string) and the helpers `_net.py` and `_browser.py`; the guides
   `aerial.md` and `world/china.md`; the data tables `calling_codes`, `cn_admin`, `cn_area_codes`, `cn_plates` and
   `territories`.
