@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["pillow", "pillow-heif"]
+# dependencies = ["pillow", "pillow-heif", "tzdata"]
 # ///
 """Deep metadata and file forensics for one photo or video (uses exiftool; falls back to Pillow).
 
@@ -38,6 +38,11 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ZONE_TAB = [Path("/usr/share/zoneinfo/zone1970.tab"), Path("/usr/share/zoneinfo/zone.tab")]
+try:  # Windows has no /usr/share/zoneinfo: fall back to the tzdata package
+    import tzdata
+    ZONE_TAB += [Path(tzdata.__file__).parent / "zoneinfo" / n for n in ("zone1970.tab", "zone.tab")]
+except ImportError:
+    pass
 
 FILENAME_PATTERNS = [
     (r"^IMG-\d{8}-WA\d+", "WhatsApp (Android) — recompressed, metadata stripped; date = received/sent date"),

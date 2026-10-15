@@ -88,7 +88,7 @@ def fetch_many(urls: list[str], parallel: int = 12, timeout: int = 40) -> dict[s
         for u in todo:
             p = _cache_path(u)
             p.parent.mkdir(parents=True, exist_ok=True)
-            lines.append(f'url = "{u}"\noutput = "{p}"\n')
+            lines.append(f'url = "{u}"\noutput = "{p.as_posix()}"\n')  # backslashes escape inside curl -K
         cfg.write_text("".join(lines))
         subprocess.run(["curl", "-q", "-s", "-L", "--fail", "--retry", "2", "--max-time", str(timeout), "-A", UA,
                         "--parallel", "--parallel-max", str(parallel), "-K", str(cfg)], check=False)

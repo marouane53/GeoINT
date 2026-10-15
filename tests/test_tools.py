@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["numpy", "pillow", "phonenumbers>=8.13", "lingua-language-detector>=2.0"]
+# dependencies = ["numpy", "pillow", "phonenumbers>=8.13", "lingua-language-detector>=2.0", "tzdata"]
 # ///
 """Offline checks for the newer tools. Run: uv run tests/test_tools.py
 Network-free: GeoNames- and brand-index-dependent checks are skipped when those caches are absent."""
