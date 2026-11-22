@@ -169,9 +169,19 @@ What the pieces are worth (details in `references/models.md`):
 
 Skip what is obviously pointless (`--no-ml` for a photo of a readable street sign; `--skip calib` for a
 close-up). For video: extract keyframes first (`ffmpeg -i clip.mp4 -vf "select='gt(scene,0.3)'" -vsync vfr
-frames/%03d.jpg`) and run recon on the most informative frames, and look at the soundtrack too
-(`audio.py look` / `events`): a passing aircraft, thunder or the mains hum can place a recording whose frames
-cannot (Special situations › Video or audio).
+frames/%03d.jpg`) and run recon on the most informative frames, or use the complete local pipeline:
+`uv run ${CLAUDE_SKILL_DIR}/scripts/video.py analyze clip.mp4 --out-dir video/`.
+The pipeline extracts fixed-cadence and scene-change frames, runs metadata and recon on the representatives,
+fuses cross-frame country/GeoCLIP evidence, estimates motion by optical flow and analyzes the soundtrack.
+Use `video.py timeline video/analysis.json --candidate lat,lon` to preserve segment timestamps and attach a
+candidate; use `video.py route` for explicit frame sequences. For moving footage, use
+`video.py route-solve video/analysis.json --candidate lat,lon --out-dir route/` to rank complete road-network
+journeys instead of averaging frame guesses. Supply `--bbox S,W,N,E` when the starting point is unknown. For
+timestamped frame constraints, use `--evidence evidence.json` (`ll`, `timestamp_seconds`, `radius_m`,
+`heading`, and `frame` fields). Judge recurring fixed structure across frames,
+not a single learned-prior result. Also look at the soundtrack directly (`audio.py look` / `events`): a
+passing aircraft, thunder or the mains hum can place a recording whose frames cannot
+(Special situations › Video or audio).
 
 ## Step 3 — Read everything and search the web (your biggest lever)
 
@@ -433,6 +443,8 @@ location becomes known, record it: `photo_session.py truth <folder> --latitude �
 | `tiles.py`, `sat_scan.py`, `evidence.py` | satellite/map mosaics (Google, hybrid with street names, Esri, Bing, Esri Wayback history since 2014, Sentinel-2 by year, NASA GIBS daily passes), town-fabric sheets, CLIP-ranked satellite scans, evidence images and colour-coded match sheets |
 | `terrain.py`, `sun.py`, `geo.py`, `pose.py` | skylines (`ridge` trace, `find` an area, `check` a place, `view --peaks`), sun/shadows, past weather by day, bearings/frames/conversions, camera pose |
 | `audio.py` | a recording's sound: whitened spectrograms, Doppler-pass detection and fitting, ADS-B tracks (adsb.lol), aircraft search scored on the modelled curves, GOES lightning and thunder search, mains hum and ENF |
+| `video.py` | metadata, fixed-cadence and scene-change keyframes, per-frame recon, cross-frame country/cluster consensus, optical-flow route estimates and integrated audio events |
+| `route_solver.py` | graph-based reconstruction of complete journeys from timestamped evidence, alternative routes, contradiction reports and GeoJSON |
 | `bench.py` | benchmarks: Street View test sets, scoring predictions and sessions |
 | `doctor.py` | setup check (`--network`, `--models`) |
 
