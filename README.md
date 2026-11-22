@@ -52,6 +52,8 @@ The optional Gemini check of reverse-search results (`compare.py`) reads `GEMINI
 | Skyline → place | `terrain.py find`: every place of an area ranked by how much of the photo's skyline shape the terrain there explains, each part of the trace judged on its own, decoys of the trace (mirrored, upside down) searched as a control, and a trust level (solid / check / weak) with its reasons, overlays and a map of the scores; `check` for one place, `ridge` to trace the skyline (snow under a blue sky included), `view --peaks` to name the summits in view; terrain from Mapterhorn (Copernicus GLO-30 plus national lidar) |
 | Maps and geometry | `osm.py`, `poi.py`, `gazetteer.py`, `tiles.py` (incl. NASA daily satellite passes), `sat_scan.py`, `terrain.py`, `sun.py` (incl. past weather by day), `geo.py`, `pose.py`, `evidence.py` (incl. colour-coded match sheets) |
 | Sound → place and time | `audio.py`: inaudible aircraft passes made visible, each fitted for speed and closest-approach distance, then searched against that day's open ADS-B tracks and scored on the modelled Doppler curves (often 100–300 m from two passes, plus the recording's start time); thunder against lightning records (GOES GLM built in); mains hum (50/60 Hz, ENF) |
+| Video → place and route | `video.py`: ffprobe metadata, fixed-cadence and scene-change keyframes, per-frame recon, cross-frame country consensus, optical-flow route estimates and integrated audio evidence |
+| Route reconstruction | `route_solver.py` / `video.py route-solve`: rank alternative journeys over an OpenStreetMap road graph using timestamped frame and cluster evidence, reject contradictions and export GeoJSON |
 | Local models | StreetCLIP + GeoCLIP world prior (`prior.py`), OWLv2 object crops (`detect.py`), GeoCalib camera calibration (`calib.py`), MegaLoc place recognition (`sweep.py`, `match.py`, `compare.py`, `triage.py`), DINOv2/CLIP matching; optionally Gemini Flash to check search results |
 
 The skill works end to end without asking questions: reverse image search, web search, maps and Street View
@@ -60,7 +62,7 @@ lookups run automatically as part of the flow.
 ## Tests
 
 ```bash
-uv run tests/test_tools.py && uv run tests/test_runtime.py && uv run tests/test_audio.py && uv run tests/test_skyline.py && python3 -m unittest tests/test_photo_session.py
+uv run tests/test_tools.py && uv run tests/test_runtime.py && uv run tests/test_audio.py && uv run tests/test_skyline.py && uv run tests/test_video.py && uv run tests/test_route_solver.py && python3 -m unittest tests/test_photo_session.py
 ```
 
 ## Licences and data
